@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+  <style>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+  </style>
+  <style>
+    .spanstyle {
+      position: absolute;
+      visibility: visible;
+      top: -50px;
+      font-size: 10pt;
+      font-family: Verdana;
+      font-weight: bold;
+      color: black;
+    }
+  </style>
+
+  <!-- Primary Meta Tags -->
+  <meta charset="utf-8" />
+  <title>Index of Refractions</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Work+Sans:reg,wght@1,400&display=swap');
+  </style>
+
+  <style>
+    #container {
+      /* background-color: #000066; */
+      color: white;
+      height: 100%;
+      width: 100%;
+      /* overflow: hidden; */
+      padding: 5px;
+    }
+
+    .cursor-trail {
+      position: absolute;
+      z-index: 10000;
+      display: inline-block;
+      width: 1px;
+      height: 1px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      overflow: hidden;
+      /* background-color: black; */
+      pointer-events: none;
+    }
+
+    .yellow-trail {
+      background-color: white;
+    }
+
+
+    /* setup */
+    html,
+    body,
+    .holster {
+      height: 100%;
+      background: darkblue;
+      overflow: hidden;
+      cursor: none;
+    }
+
+    .holster {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-flow: column nowrap;
+      font-family: 'Roboto Mono', monospace;
+      color: white;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      display: flex;
+      overflow: auto;
+      outline: 1px dashed lightgray;
+      flex: none;
+    }
+
+    .container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .container.x {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      bottom: 0;
+      flex-flow: row nowrap;
+    }
+
+    .container.y {
+      width: 256px;
+      height: 256px;
+      flex-flow: column nowrap;
+    }
+
+    /* scroll-snap */
+    .x.mandatory-scroll-snapping {
+      scroll-snap-type: x mandatory;
+    }
+
+    .y.mandatory-scroll-snapping {
+      scroll-snap-type: y mandatory;
+    }
+
+    .x.proximity-scroll-snapping {
+      scroll-snap-type: x proximity;
+    }
+
+    .y.proximity-scroll-snapping {
+      scroll-snap-type: y proximity;
+    }
+
+    .container>div {
+      text-align: center;
+      scroll-snap-align: center;
+      flex: none;
+      scroll-behavior: smooth;
+    }
+
+    .x.container>div {
+      line-height: 180vh;
+      font-size: 23px;
+      width: 100%;
+      /* height: 50px; */
+    }
+
+    .y.container>div {
+      line-height: 256px;
+      font-size: 128px;
+      width: 256px;
+      height: 100%;
+    }
+
+    /* appearance fixes */
+    .y.container>div:first-child {
+      line-height: 1.3;
+      font-size: 64px;
+    }
+
+    /* coloration */
+    .container>div:nth-child(even) {
+      /* background-color: #87EA87; */
+    }
+
+    .container>div:nth-child(odd) {
+      /* background-color: #87CCEA; */
+    }
+
+    #image-left,
+    #image-right {
+      height: 60vh;
+      width: 50vw;
+      position: fixed;
+      background: none;
+      top: 20vh;
+      left: 0;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      align-content: center;
+      justify-content: flex-end;
+      z-index: 0;
+    }
+
+    #image-left {
+      left: 0;
+      justify-content: flex-end;
+      mix-blend-mode: screen;
+
+    }
+
+    #image-right {
+      left: 50vw;
+      justify-content: flex-start;
+      mix-blend-mode: screen;
+
+    }
+
+    #image-left img,
+    #image-right img {
+      height: 90vh;
+      z-index: 12;
+      background-color: inherit;
+    }
+
+    .tab span {
+      padding-left: 10vw;
+      display: inline-block;
+
+    }
+
+    .tab div {
+      padding-left: 66vw;
+      display: inline-block;
+    }
+
+    marquee {
+      color: white;
+
+      color: white;
+
+    }
+
+
+    .marquee {
+      width: 100vw;
+      /* margin: 0 auto; */
+      /* height: 100vh; */
+      vertical-align: middle;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: white;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 80px;
+      z-index: 1000;
+    }
+
+    .marquee span {
+      display: inline-block;
+      width: max-content;
+
+      padding-left: 100%;
+      /* show the marquee just outside the paragraph */
+      will-change: transform;
+      animation: marquee 6s linear infinite;
+
+      /* transition-timing-function: ease-in-out; */
+    }
+
+    .marquee span:hover {
+      animation-play-state: paused;
+      /* animation: marquee 120s linear infinite; */
+      transition-timing-function: ease-in-out;
+    }
+
+
+    @keyframes marquee {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      100% {
+        transform: translate(-100%, 0);
+      }
+    }
+
+
+
+
+    /* Respect user preferences about animations */
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee span {
+        animation-iteration-count: 1;
+        animation-duration: 0.01;
+        /* instead of animation: none, so an animationend event is
+     * still available, if previously attached.
+     */
+        width: auto;
+        padding-left: 0;
+      }
+    }
+
+
+    span {
+      display: flex;
+      position: absolute;
+    }
+
+    li {
+      display: inline-block;
+      width: 48vw;
+      height: 2rem;
+      ...
+    }
+
+    a {
+      color: gray;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: white;
+      /* text-decoration: underline; */
+    }
+
+    ul#cyclelist {
+      width: 200px;
+      border: solid;
+      position: relative;
+      overflow: hidden;
+      height: 200px
+    }
+
+    ul#cyclelist li {
+      font-size: 1.4em;
+      padding: 20px;
+      opacity: 0;
+      position: absolute
+    }
+
+    .speed-control {
+      color: red;
+      font-size: 17px;
+    }
+
+    .title {
+      color: white;
+      font-size: 17px;
+      font-family: 'Roboto Mono', monospace;
+    }
+
+    div.blend {
+      opacity: .5;
+      mix-blend-mode: screen;
+      /* background-color: darkblue; */
+    }
+
+  </style>
+
+  <link rel="icon" type="image/png" href="images/icon-064.png" sizes="64x64">
+  <link rel="icon" type="image/png" href="images/icon-128.png" sizes="128x128">
+
+</head>
+
+<body>
+  <div id='container'>
+    <!-- <body onLoad="makesnake()" style="width:100%;overflow-x:hidden;overflow-y:scroll"> -->
+
+
+    <div id="image-left" onclick="getRandomImage(random_images_arrayL, 'images/', image_left)"></div>
+
+    <div id="image-right" onclick="getRandomImage(random_images_arrayR, 'images/', image_right)"></div>
+
+
+    <!-- <div class="container x mandatory-scroll-snapping" dir="ltr"> -->
+    <!-- <div><a id="front">So then what do we have here?</a></div> -->
+
+    <!-- <marquee scrollamount="10" onmouseover="stop()" onmouseout="start()"> -->
+
+    <div id="blur">
+      <!-- <span class="title">INDEX OF REFRACTIONS</span> -->
+      <div class="marquee">
+
+
+        <span>
+          <li>A signal, </li>
+          <li>a flickering light in the distance, </li>
+          <li>a rhythmic pulse, </li>
+          <li>a resonance</li>
+          <li>))) </li>
+          <li></li>
+          <li>In a way </li>
+          <li>this is a message through time. </li>
+          <li>It is to whomever encounters it </li>
+          <li>[which would most likely happen </li>
+          <li>in the Special Collections area of the Haas Arts Library] </li>
+          <li>I wouldn’t normally be </li>
+          <li>dwelling on the potential for this book to be read </li>
+          <li>or where it might go in the world </li>
+          <li>and whose hands it ends up in, but </li>
+          <li>given the predetermined circumstances,</li>
+          <li>it’s not entirely out-of-the-question that </li>
+          <li>somebody might happen upon this </li>
+          <li>years or decades from now. </li>
+          <li>There is built-in potential </li>
+          <li>for a continuous, asynchronous </li>
+          <li>audience of one. These sentences will </li>
+          <li>be printed in a self-produced book—a run likely in the single digits </li>
+          <li>—which will eventually sit on a shelf </li>
+          <li>in a room </li>
+          <li>at the end of a hallway, </li>
+          <li>beyond a locked door, </li>
+          <li>in the far corner of </li>
+          <li>the basement of the library. </li>
+          <li>Further from now, </li>
+          <li>it might be transferred to a climate-controlled storage facility, </li>
+          <li>where it sits in the dark, </li>
+          <li>in suspended animation, awaiting request. </li>
+          <li>The title and maker’s name will be added to a list </li>
+          <li>which will appear among the other names of the cohort, </li>
+          <li>chronologically following the previous seven decades’ worth of similar books. This particular stratum of books </li>
+          <li>will be notable for </li>
+          <li>the extraordinary year that flowed into—</li>
+          <li>and was the unavoidable context for—</li>
+          <li>their realizations. They will be </li>
+          <li>an archive </li>
+          <li>of our thoughts, energy and outlooks. </li>
+          <li>Next year, </li>
+          <li></li>
+          <li>a new crop of books will emerge </li>
+          <li>and be deposited; </li>
+          <li>a new layer atop this year’s. </li>
+          <li>And then again after that. </li>
+          <li>And so on, until one day it’s decided that </li>
+          <li>perhaps the Yale Graphic Design Thesis Book </li>
+          <li>has run its course as a requisite, </li>
+          <li>at which point </li>
+          <li>the body of work of which this is </li>
+          <li>a tiny part, </li>
+          <li>representing however many decades of graphic study, </li>
+          <li>amases </li>
+          <li>no more. </li>
+          <li></li>
+          <li></li>
+          <li>I </li>
+          <li>wonder about </li>
+          <li>the eyes that will glance at this page, </li>
+          <li>a </li>
+          <li>subset </li>
+          <li>of which </li>
+          <li>might skim a few sentences, </li>
+          <li>or </li>
+          <li>the even fewer that’ll take the time </li>
+          <li>to read it in its entirety. </li>
+          <li></li>
+          <li>Perhaps </li>
+          <li>You, </li>
+          <li>now, </li>
+          <li>are sitting with this book and it is very old. </li>
+          <li>Maybe you’re the first person to pick it up in years. (Or ever?) </li>
+          <li>Do you wonder about the last time somebody else </li>
+          <li>flipped through this thing you’re holding?</li>
+          <li> </li>
+          <li>Do you wonder who they were, </li>
+          <li>what they thought, </li>
+          <li>or what was </li>
+          <li>happening in their world at the time? </li>
+          <li>Do you imagine </li>
+          <li>where you might have been, </li>
+          <li>what you might have been doing, </li>
+          <li>when they were looking at these pages? </li>
+          <li>What would you say to them? </li>
+          <li>In a way, </li>
+          <li>this book functions perpendicular to time. </li>
+          <li>Sure, it’ll deteriorate; </li>
+          <li>maybe the pages will fall loose, </li>
+          <li>or be stained and torn, </li>
+          <li>with each alteration marking the passing of time, </li>
+          <li>the one-way inevitability of entropy. </li>
+          <li>But unless it gets misplaced, lost or stolen, </li>
+          <li>the book will be there waiting, as a node, static and removed from the timeflow </li>
+          <li>as much as it can be, </li>
+          <li>until now, when </li>
+          <li>your narrative intersects with its. </li>
+          <li></li>
+          <li>Whatever meaning the book has now will certainly </li>
+          <li>change </li>
+          <li>by then. </li>
+          <li>Like tracing your own shadow, </li>
+          <li>the act itself affects the outcome. </li>
+          <li>Meaning being in constant flux, </li>
+          <li>continuously shaped and reshaped by the flow—</li>
+          <li>its existence, </li>
+          <li>the limits of its access, </li>
+          <li>the highly-controlled environment that will preserve it, </li>
+          <li>the program it was born out of, </li>
+          <li>the people who will look after it and its counterparts </li>
+          <li>and the relationships of all those forces </li>
+          <li>will surely tug on one another, </li>
+          <li>an intricate web </li>
+          <li>with no definitive beginning </li>
+          <li>or end. </li>
+          <li>The work is guided by a goal of </li>
+          <li>emergence; </li>
+          <li>wholes greater than </li>
+          <li>the sum of their parts. </li>
+          <li></li>
+          <li>Interconnected </li>
+          <li>relationships, a web of </li>
+          <li>energies with no distinct edge, attempt to make </li>
+          <li>space for the viewer, perpetually </li>
+          <li>incomplete, given life by </li>
+          <li>an exchange; </li>
+          <li></li>
+          <li>With time—</li>
+          <li>because of time—</li>
+          <li>infinite potentials. </li>
+          <li>Everything we see, </li>
+          <li>everything we smell, touch and feel—</li>
+          <li>Everything we hear, taste, think, remember and dream </li>
+          <li>is part of something larger, </li>
+          <li>too big to see. </li>
+          <li></li>
+          <li></li>
+          <li>The relationship between </li>
+          <li>tree and forest is infinitely complex.</li>
+          <li></li>
+          <li> </li>
+          <li>Molecule; </li>
+          <li>mineral; </li>
+          <li>microbe; </li>
+          <li>root; </li>
+          <li>branch; </li>
+          <li>twig; </li>
+          <li>leaf; </li>
+          <li>light; </li>
+          <li>shadow; </li>
+          <li>atmosphere. </li>
+          <li></li>
+          <li>Sometimes the forest helps us know the tree </li>
+          <li></li>
+          <li>and sometimes the tree is key to knowing the forest. </li>
+          <li>The dynamics, </li>
+          <li>forever changing and exchanging. </li>
+          <li>Continuously becoming.</li>
+          <li>
+        </span>
+      </div>
+
+
+    </div>
+
+
+    <div class="blend">
+      <!-- <img src="images/pgs_04.png"> -->
+
+
+
+      <!-- </marquee> -->
+
+
+      <!-- <div class="images"> -->
+      <script type="text/javascript">
+        const random_images_arrayR = [
+          '001.png',
+          '002.png',
+          '003.png',
+          '004.png',
+          '005.png',
+          '006.png',
+          '007.png',
+          '008.png',
+          '009.png',
+          '010.png',
+
+          '011.png',
+          '012.png',
+          '013.png',
+          '014.png',
+          '015.png',
+          '016.png',
+          '017.png',
+          '018.png',
+          '019.png',
+          '020.png',
+
+          '011.png',
+          '012.png',
+          '013.png',
+          '014.png',
+          '015.png',
+          '016.png',
+          '017.png',
+          '018.png',
+          '019.png',
+          '020.png',
+
+          '021.png',
+          '022.png',
+          '023.png',
+          '024.png',
+          '025.png',
+          '026.png',
+          '027.png',
+          '028.png',
+          '029.png',
+          '030.png',
+
+          '031.png',
+          '032.png',
+          '033.png',
+          '034.png',
+          '035.png',
+          '036.png',
+          '037.png',
+          '038.png',
+          '039.png',
+          '040.png',
+
+          '041.png',
+          '042.png',
+          '043.png',
+          '044.png',
+          '045.png',
+          '046.png',
+          '047.png',
+          '048.png',
+          '049.png',
+          '050.png',
+
+          '051.png',
+          '052.png',
+          '053.png',
+          '054.png',
+          '055.png',
+          '056.png',
+          '057.png',
+          '058.png',
+          '059.png',
+          '060.png',
+
+          '061.png',
+          '062.png',
+          '063.png',
+          '064.png',
+          '065.png',
+          '066.png',
+          '067.png',
+          '068.png',
+          '069.png',
+          '070.png',
+
+          '071.png',
+          '072.png',
+          '073.png',
+          '074.png',
+          '075.png',
+          '076.png',
+          '077.png',
+          '078.png',
+          '079.png',
+          '080.png',
+
+          '081.png',
+          '082.png',
+          '083.png',
+          '084.png',
+          '085.png',
+          '086.png',
+          '087.png',
+          '088.png',
+          '089.png',
+          '090.png',
+
+          '091.png',
+          '092.png',
+          '093.png',
+          '094.png',
+          '095.png',
+          '096.png',
+          '097.png',
+          '098.png',
+          '099.png',
+          '100.png'
+        ];
+
+        const random_images_arrayL = [
+          '001.png',
+          '002.png',
+          '003.png',
+          '004.png',
+          '005.png',
+          '006.png',
+          '007.png',
+          '008.png',
+          '009.png',
+          '010.png',
+
+          '011.png',
+          '012.png',
+          '013.png',
+          '014.png',
+          '015.png',
+          '016.png',
+          '017.png',
+          '018.png',
+          '019.png',
+          '020.png',
+
+          '011.png',
+          '012.png',
+          '013.png',
+          '014.png',
+          '015.png',
+          '016.png',
+          '017.png',
+          '018.png',
+          '019.png',
+          '020.png',
+
+          '021.png',
+          '022.png',
+          '023.png',
+          '024.png',
+          '025.png',
+          '026.png',
+          '027.png',
+          '028.png',
+          '029.png',
+          '030.png',
+
+          '031.png',
+          '032.png',
+          '033.png',
+          '034.png',
+          '035.png',
+          '036.png',
+          '037.png',
+          '038.png',
+          '039.png',
+          '040.png',
+
+          '041.png',
+          '042.png',
+          '043.png',
+          '044.png',
+          '045.png',
+          '046.png',
+          '047.png',
+          '048.png',
+          '049.png',
+          '050.png',
+
+          '051.png',
+          '052.png',
+          '053.png',
+          '054.png',
+          '055.png',
+          '056.png',
+          '057.png',
+          '058.png',
+          '059.png',
+          '060.png',
+
+          '061.png',
+          '062.png',
+          '063.png',
+          '064.png',
+          '065.png',
+          '066.png',
+          '067.png',
+          '068.png',
+          '069.png',
+          '070.png',
+
+          '071.png',
+          '072.png',
+          '073.png',
+          '074.png',
+          '075.png',
+          '076.png',
+          '077.png',
+          '078.png',
+          '079.png',
+          '080.png',
+
+          '081.png',
+          '082.png',
+          '083.png',
+          '084.png',
+          '085.png',
+          '086.png',
+          '087.png',
+          '088.png',
+          '089.png',
+          '090.png',
+
+          '091.png',
+          '092.png',
+          '093.png',
+          '094.png',
+          '095.png',
+          '096.png',
+          '097.png',
+          '098.png',
+          '099.png',
+          '100.png'
+        ];
+
+
+        function getRandomImage(imgAr, path, source) {
+          path = 'images/'; // default path here
+          let num = Math.floor(Math.random() * imgAr.length);
+          let img = imgAr[num];
+          let imgStr = '<img src="' + path + img + '" alt = "" + style="mix-blend-mode:difference">';
+          // document.write(imgStr); document.close();
+          console.log(source)
+          source.innerHTML = imgStr
+        }
+
+
+        let image_left = document.querySelector("#image-left")
+        let image_right = document.querySelector("#image-right")
+        getRandomImage(random_images_arrayL, 'images/', image_left)
+        getRandomImage(random_images_arrayR, 'images/', image_right)
+      </script>
+
+    </div>
+
+  </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+  function slowTime() {
+
+    //The number of seconds that have passed
+    //since the user was active.
+    var secondsSinceLastActivity = 2;
+    var timeToFocus = (1);
+
+    setInterval(function() {
+      secondsSinceLastActivity++;
+      console.log(secondsSinceLastActivity + ' seconds since the user was last active');
+      //if the user has been inactive or idle for longer
+      //then the seconds specified in maxInactivity
+      if (secondsSinceLastActivity > timeToFocus) {
+
+        document.getElementById("image-left").style.color = "black";
+        document.getElementById("image-left").style.filter = "blur(200px)";
+        document.getElementById("image-left").style.transitionDuration = "24s";
+
+        document.getElementById("image-right").style.color = "black";
+        document.getElementById("image-right").style.filter = "blur(200px)";
+        document.getElementById("image-right").style.transitionDuration = "26s";
+
+        document.getElementById("blur").style.color = "white";
+        document.getElementById("blur").style.filter = "blur(0px)";
+        document.getElementById("blur").style.transitionDuration = "7s";
+
+      }
+    }, 500);
+
+    //The function that will be called whenever a user is active
+    function activity() {
+      //reset the secondsSinceLastActivity variable
+      //back to 0
+
+      document.getElementById("image-left").style.color = "red";
+      document.getElementById("image-left").style.filter = "blur(0px)";
+      // document.getElementById("image-left").style.opacity = ".5";
+      document.getElementById("image-left").style.transitionDuration = "6s";
+
+      document.getElementById("image-right").style.color = "red";
+      document.getElementById("image-right").style.filter = "blur(0px)";
+      // document.getElementById("image-right").style.opacity  = ".5";
+      document.getElementById("image-right").style.transitionDuration = "7s";
+
+      document.getElementById("blur").style.color = "white";
+      document.getElementById("blur").style.filter = "blur(150px)";
+      document.getElementById("blur").style.opacity = ".75";
+      document.getElementById("blur").style.transitionDuration = "22s";
+      secondsSinceLastActivity = 0;
+    }
+
+    //An array of DOM events that should be interpreted as
+    //user activity.
+    var activityEvents = [
+      'mousedown', 'mousemove', 'keydown',
+      'scroll'
+    ];
+
+    //add these events to the document.
+    //register the activity function as the listener parameter.
+    activityEvents.forEach(function(eventName) {
+      document.addEventListener(eventName, activity, true);
+    });
+
+
+  }
+
+  slowTime();
+
+
+
+  $(document).ready(function() {
+
+    var j = 0;
+    var delay = 2000; //millisecond delay between cycles
+    function cycleThru() {
+      var jmax = $("hello my name is milo; wehea;").length - 1;
+      $("ul#cyclelist li:eq(" + j + ")")
+        .animate({
+          "opacity": "1"
+        }, 400)
+        .animate({
+          "opacity": "1"
+        }, delay)
+        .animate({
+          "opacity": "0"
+        }, 400, function() {
+          (j == jmax) ? j = 0: j++;
+          cycleThru();
+        });
+    };
+
+    cycleThru();
+
+  });
+</script>
+
+
+<script>
+  <!-- Beginning of JavaScript -
+  for (i = 0; i <= message.length - 1; i++) {
+    document.write("<span id='span" + i + "' class='spanstyle'>")
+    document.write(message[i])
+    document.write("</span>")
+  }
+
+  if (document.layers) {
+    document.captureEvents(Event.MOUSEMOVE);
+  }
+  document.onmousemove = handlerMM;
+
+  // - End of JavaScript -
+  -->
+</script>
+
+
+<script>
+  (function($) {
+
+    var baseCssClass = "cursor-trail",
+      addPoint = function(pageX, pageY, cssClass, timeToGrow, timeToShrink, scale) {
+        // Create a new point located at the mouse position
+        var point = $("<div>", {
+          "class": cssClass,
+          css: {
+            left: pageX,
+            top: pageY
+          }
+        }).appendTo('body');
+
+        // now make the point grow, then shrink and finally disappear
+        point
+          .transition({
+            scale: scale
+          }, timeToGrow)
+          .transition({
+            scale: 1
+          }, timeToShrink, function() {
+            point.remove();
+          });
+      };
+
+    $.fn.cursorTrail = function(options) {
+      // assign defaults for those options not supplied
+      options = $.extend({
+        timeToGrow: 600000,
+        timeToShrink: 600000,
+        scale: 10,
+        "class": ""
+      }, options);
+
+      // add the base css class all cursor trail points need.
+      var actualCssClass = baseCssClass;
+      if (options["class"]) {
+        actualCssClass += " " + options["class"];
+      }
+
+      return this.bind("mousemove", function(ev) {
+        addPoint(ev.pageX, ev.pageY, actualCssClass, options.timeToGrow, options.timeToShrink, options.scale);
+      });
+    };
+  }(jQuery));
+
+  // jQuery.transit has a bug in older IE versions, so switch to jQuery animate
+  if (!$.support.transition) {
+    $.fn.transition = $.fn.animate;
+  }
+
+  $("#container").cursorTrail({
+    "class": "yellow-trail"
+  });
+</script>
+
+
+
+</html>
