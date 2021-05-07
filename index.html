@@ -3,15 +3,15 @@
 
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
   <style>
-
     .spanstyle {
       position: absolute;
       visibility: visible;
       top: -50px;
       font-size: 10pt;
-font-family: 'Roboto Mono', monospace;
+      font-family: 'Roboto Mono', monospace;
       color: black;
     }
   </style>
@@ -73,6 +73,7 @@ font-family: 'Roboto Mono', monospace;
       font-family: 'Roboto Mono';
       color: white;
     }
+
 
     a {
       color: inherit;
@@ -206,6 +207,7 @@ font-family: 'Roboto Mono', monospace;
 
     marquee {
       color: white;
+      animation: fade
     }
 
 
@@ -220,6 +222,74 @@ font-family: 'Roboto Mono', monospace;
       font-family: 'Roboto Mono';
       font-size: 80px;
       z-index: 1000;
+      /* pointer-events: none; */
+
+
+
+
+      -webkit-animation: fadein 30s;
+      /* Safari, Chrome and Opera > 12.1 */
+      -moz-animation: fadein 40s;
+      /* Firefox < 16 */
+      -ms-animation: fadein 40s;
+      /* Internet Explorer */
+      -o-animation: fadein 40s;
+      /* Opera < 12.1 */
+      animation: fadein 40s;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Firefox < 16 */
+    @-moz-keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Safari, Chrome and Opera > 12.1 */
+    @-webkit-keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Internet Explorer */
+    @-ms-keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Opera < 12.1 */
+    @-o-keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     .marquee span {
@@ -322,16 +392,30 @@ font-family: 'Roboto Mono', monospace;
       mix-blend-mode: screen;
       /* background-color: darkblue; */
     }
-
   </style>
 
-  <link rel="icon" type="image/png" href="images/icon-064.png" sizes="64x64">
+  <link rel="icon" type="image/png" href="images/icon-064.png" sizes="256x256">
   <link rel="icon" type="image/png" href="images/icon-128.png" sizes="128x128">
+
+
+  <!-- <script>
+    document.body.classList.add('fade-out');
+
+    window.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.remove('fade-out');
+});
+
+  </script> -->
+
+
+
+
 
 </head>
 
 <body>
   <div id='container'>
+    <!-- <div class="page-bg"> -->
     <!-- <body onLoad="makesnake()" style="width:100%;overflow-x:hidden;overflow-y:scroll"> -->
 
 
@@ -796,6 +880,7 @@ font-family: 'Roboto Mono', monospace;
     </div>
 
   </div>
+  <!-- </div> -->
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
